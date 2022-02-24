@@ -3,7 +3,7 @@ import Navbar from './Navbar'
 import Footer from './Footer'
 import Head from 'next/head'
 
-const ContainerBlock = ({Children, ...customMeta}) => {
+const ContainerBlock = ({children, ...customMeta}) => {
 
   const meta = {
     title: "Ci Ecommerce",
@@ -21,7 +21,7 @@ const ContainerBlock = ({Children, ...customMeta}) => {
       <main>
         <Navbar />
         <div>
-          {Children}
+          {children}
         </div>
         <Footer />
       </main>
