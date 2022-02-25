@@ -18,7 +18,7 @@ const Hero = () => {
               </span>
             </div>
           </div>
-          <div className="d-sm-none d-lg-block col-lg-6 my-4">
+          <div className="d-none d-md-block col-lg-6 my-4">
             <div style={{ backgroundColor: "pink", borderRadius: "50%", width: "750", height: 'auto' }}>
               <Image alt="" src='/images/hero-img.png' width="720" height="700" />   
             </div>
