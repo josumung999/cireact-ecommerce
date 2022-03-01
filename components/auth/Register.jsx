@@ -1,9 +1,51 @@
 import { faEnvelope, faKey, faLock, faUser } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Image from 'next/image'
-import React from 'react'
+import React, { useState } from 'react'
+import { useRouter } from "next/router"
+import axios from 'axios'
 
 const Register = () => {
+  const router = useRouter();
+  const [formData, setFormData] = useState({
+    firstname: '',
+    lastname: '',
+    email: '',
+    password: '',
+    password_confirm: ''
+  });
+
+  const { firstname, lastname, email, password, password_confirm } =formData;
+
+  const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
+
+  const onSubmit = async e => {
+    e.preventDefault();
+    if(password !== password_confirm) {
+      window.alert('Password do not match')
+    } else {
+      const config = {
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }
+
+      const body = JSON.stringify({ firstname, lastname, email, password, password_confirm });
+
+      try {
+        const res = await axios.post('http://localhost:8080/user/register', body, config);
+
+        window.alert('User Account Created Successfully')
+      } catch (err) {
+        console.error(err)
+      }
+    }
+  }
+
+
+
+
+
   return (
     <section className="vh-100" style={{backgroundColor: "#eee"}}>
       <div className="container h-100">
@@ -16,57 +58,89 @@ const Register = () => {
 
                     <p className="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign up</p>
 
-                    <form className="mx-1 mx-md-4">
+                    <form onSubmit={e => onSubmit(e)} className="mx-1 mx-md-4">
 
                       <div className="d-flex flex-row align-items-center mb-4">
                         <FontAwesomeIcon icon={faUser} className="fa-lg me-3 fa-fw"/>
                         <div className="form-outline flex-fill mb-0">
-                          <input type="text" placeholder='Firstname' id="form3Example1c" className="form-control" />
+                          <input 
+                            type="text"
+                            name='firstname'
+                            onChange={e => onChange(e)}
+                            value={firstname} 
+                            placeholder='Firstname' 
+                            id="form3Example1c" 
+                            className="form-control" 
+                          />
                         </div>
                       </div>
 
                       <div className="d-flex flex-row align-items-center mb-4">
                         <FontAwesomeIcon icon={faUser} className="fa-lg me-3 fa-fw"/>
                         <div className="form-outline flex-fill mb-0">
-                          <input type="text" placeholder='Lastname' id="form3Example1c" className="form-control" />
+                          <input 
+                            type="text" 
+                            name='lastname'
+                            onChange={e => onChange(e)} 
+                            value={lastname} 
+                            placeholder='Lastname' 
+                            id="form3Example1ccc" 
+                            className="form-control" 
+                          />
                         </div>
                       </div>
 
                       <div className="d-flex flex-row align-items-center mb-4">
                         <FontAwesomeIcon icon={faEnvelope} className="fa-lg me-3 fa-fw"/>
                         <div className="form-outline flex-fill mb-0">
-                          <input type="email" placeholder='Email' id="form3Example3c" className="form-control" />
+                          <input 
+                            type="email" 
+                            name='email'
+                            onChange={e => onChange(e)} 
+                            value={email} 
+                            placeholder='Email' 
+                            id="form3Example3c" 
+                            className="form-control" 
+                          />
                         </div>
                       </div>
 
                       <div className="d-flex flex-row align-items-center mb-4">
                         <FontAwesomeIcon icon={faLock} className="fa-lg me-3 fa-fw"/>
                         <div className="form-outline flex-fill mb-0">
-                          <input type="password" placeholder='Password' id="form3Example4c" className="form-control" />
+                          <input 
+                            type="password" 
+                            name='password'
+                            onChange={e => onChange(e)} 
+                            value={password} 
+                            placeholder='Password' 
+                            id="form3Example4c" 
+                            className="form-control" 
+                          />
                         </div>
                       </div>
 
                       <div className="d-flex flex-row align-items-center mb-4">
                         <FontAwesomeIcon icon={faKey} className="fa-lg me-3 fa-fw"/>
                         <div className="form-outline flex-fill mb-0">
-                          <input type="password" placeholder='Confirm Password' id="form3Example4cd" className="form-control" />
+                          <input 
+                            type="password" 
+                            name='password_confirm'
+                            onChange={e => onChange(e)} 
+                            value={password_confirm} 
+                            placeholder='Confirm Password' 
+                            id="form3Example4cd" 
+                            className="form-control" 
+                          />
                         </div>
                       </div>
 
-                      <div className="form-check d-flex justify-content-center mb-5">
-                        <input
-                          className="form-check-input me-2"
-                          type="checkbox"
-                          value=""
-                          id="form2Example3c"
-                        />
-                        <label className="form-check-label" htmlFor="form2Example3">
-                          I agree all statements in <a href="#!">Terms of service</a>
-                        </label>
-                      </div>
-
                       <div className="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                        <button type="button" className="btn btn-primary btn-lg">Register</button>
+                        <input 
+                          type="submit" 
+                          value="Register" 
+                          className="btn btn-primary btn-lg" 
+                        />
                       </div>
 
                     </form>
